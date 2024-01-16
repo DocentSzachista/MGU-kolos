@@ -50,13 +50,3 @@ Nie robi się konwolucji parzystej, bo kwadraty wtedy nie mają środka. Samą o
 ## Sieć inception3, szukać odpowiedzi na to jak nie utracić gradientu za pomocą pogłębiania sieci (zastosowanie kroku "skip")
 ## Po co jest depthwise convolutin
 ## (Ogarnąć) Plusy resnet'a i deepneyea
-
-
-## Podane kluczowe modele na kolosie (na stan wykładu 08.11)
-    - Alexnet
-    - vgg
-    - inception
-    - resnet
-    - efficientnet
-
-## Unet ważne
