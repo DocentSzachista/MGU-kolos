@@ -22,4 +22,5 @@
 | Squeeze-and-excitation networks - SENet |2018| : Moduły SE, które skutecznie modelują zależności między kanałami w mapach cech. Moduły te pozwalają sieci na dynamiczne dostosowanie wag poszczególnych kanałów, co zwiększa jej zdolność do wyłapywania użytecznych informacji. Część  squeeze agreguje informacje globalne z mapy cech,  część excitation (pobudzenie) wykorzystuje te informacje do modulacji wag kanałów.
 | NASNet |2018| Użyto sieci rekurencyjnych i reinforced learning. Pozwolono modelowi, aby sam dobierał parametry (wybierał dwa ukryte stany, potem wybierał operacje, jakie wykonać na tych stanach, a potem operację do połączenia tych stanów - te operacje powtarza dla losowo wybranych nowych i starych ukrytych stanów).
 |AmoebaNet | 2019 | użycie algorytmu ewolucyjnego zamiast reinforced learning (w NASNet). Sieć cechuje problem z pamięcią bo przechowujemy kolejne generacje algorytmu.
-| EfficientNet |2019|
+| EfficientNet |2019| (Compound Scaling) zastosowanie metody skalowania wielowymiarowego, która jednocześnie zwiększa głębokość, szerokość i rozdzielczość sieci w zbilansowany sposób.
+| Vision Transformer ViT | 2020 | podział obrazka na kilka części (patch), przetworzenie każdej na słowo, użycie otrzymanego zdania w Transformer Encoder. Model wymaga bardzo dużego zbioru danych aby być w stanie się nauczyć.
