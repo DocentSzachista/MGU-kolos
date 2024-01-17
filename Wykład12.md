@@ -1,101 +1,105 @@
-## Object detection
+# Rozpoznawanie obiektów
+## Podstawowe pojęcia
+### Bounding box
+Otaczamy obiekt na zdjęciu ramką i przypisujemy temu wycinkowi label.
 
-Po krótce móc zaznaczyć nas oczekiwany obiekt na zdjęciu 
+### Instance segmentation
+zaznaczamy każdy pixel obiektu specyficznym kolorem i do koloru dodajemy label. Np. jeśli na zdjęciu jest kilka osób każda otrzyma swój label person1, person2, itp..
 
-## Instance segmentation 
-Zaznaczanie każdego piksela w obiekcie
+### Semantic segmentation
+działa jak instance ale zaznaczamy wszystkie obiekty na obrazie odpowiednimi kolorami. Np. jeśli na zdjęciu jest kilka osób każda otrzyma taki sam label np. person.
 
-## Semantic segmentation
-Tagowanie każdego pixela na obrazie 
+### Keypoints
+zaznaczamy specyficzne punkty obiektu tak aby można było stworzyć szkielet np. zaznaczamy głowę, ręce, nogi i mamy szkielet człowieka.
 
 
-## Zbiór danych
+## Tagowanie obrazu
+<object-class> <x> <y> <width> <height>
+gdzie x, y to współrzędne środka obrazu, a width, height to szerokość i wysokość ramki. Należy polegać na istniejących zbiorach i tworzyć własne tylko w ostateczności. Dobry zbiór - COCO - ma boundingboxy, segmentację i keypointy.
 
-- zapis danych zazwyczaj jako:
-
-```class_id, x, y, width, height```
-
-- COCO najbardziej uzywany 
 
 ## Intersection over Union
+$$ IoU = {AreaOfOverlap \over AreaOfUnion}$$
+Sprawdzenie jaki jest stosunek ramki wyznaczonej przez model do ramki prawdziwej (wyznaczonej w danych testowych)
+## Mean Average Precision (mAP)
+$$mAP = \frac{1}{N} \sum_{i=1}^{N} {TP_i \over FP_i - TP_i }$$
 
-- wyliczane jako: część wspólna bouding boxów / część eksperta bounding boxa 
+Jest to wzór którym obliczamy jak dobrze nasz model wykrywa obiekty, za pomocą macierzy kowariancji.
 
+## Sposoby wykrywania obiektów
 
-Jak to zrobić dla serii danych, jedną liczbą opisać czy jest dobrze czy źle?
-**mAP** mean average precision 
-- Wyznaczamy średnią i określamy konkretną średnią 
+### Sliding search
 
-Jak wykrywać obiekty
+Bierzemy prostokąt/kwadrat, ustanawiamy go jako okno i przesuwamy go po całym obrazie. Potem zmieniamy wymiary okna i znowu przesuwamy po całym obrazie i tak kilka razy.
 
-- okno przesuwne po całym zdjęciu 
-- 
+### Selective Search
 
-Jak zmniejszyć liczbę prostokatów
-- wrzucić selecitve search by znaleźć obszary podobnie kolorystycznie 
-- i dopiero po nich puszczać prostokąty 
-- Zaznaczone prostokąty to ROI 
-- Pierwszy model co takiego zrobił to R-CNN (2012)
-- wuaczymy svm'a wykrywac bounding boxy 
-- uczono binarnie 
+Algorytm znajdujący iteracyjnie obszary podobne kolorystycznie, następnie po nich się szuka obszaru zainteresowań. Zmniejsza obszar pszeszukiwań prostokątami.
+
+![](./images/selective.png)
+
+## R-CNN 2012
+Pierwszy model który implementował  rozpoznawanie obiektów na obrazie. Do każdej klasy wyuczono osobno binarnie SVM'a.
+### Minusy
+- długo się liczy
+- mamy tak po prawdzie kilka sieci neuronowych które trzeba nauczyć.
+- selective search potrafi generować błędy w obszarach.
 
 ## Bounding Box Regressor
+Komponent odpowiadający za poprawianie początkowo wykrytych bounding boxów w sieci.
+
+## Jak poprawić prędkość działania
+
+### Zastąpienie SVM siecią konwolucyjną
+- wykorzystanie receptive field
+- Zmiana miejsca rozpoznawania obiektu do ostatniej warstwy konwolucyji.
+
+Krok po kroku:
+1. Obrazek przepuszczany przez siec konwolucyjna
+2. Wyciagamy ostatnia warstwe sieci konwolucyjnej
+3. Wyliczamy z niej ROI
+4. Tutaj przeprowadzamy analizę czy mamy obiekt
+
+### Zastąpienie selective search'a modelem sieci który będzie rozróżniał obszary. (Hasło Region Proposal)
+Krok po kroku:
+1. Puszczamy obrazek przez siec i dostajemy ostatnią warstwę konwolucji
+2. Puszczamy to do drugiej podsieci która generuje ROI
+3. Wynik jest zwracany do pierwszej sieci która przeprowadza na bazie tego rozpoznania, następnie zwracane są bounding boxy i rozpoznany obiekt
 
 
-
-Wady R-CNN
-- długo się liczy
-- rozwalenie na kilka sieci 
-
-
-
-## Jak to zrobić szybciej 
-1. 
-- przepuszczać sieć jednokrotnie
-- Użycie receptive field i różnowymiarowych konwolucji nałożonych na siebie. 
-- Przejść z obrazka na obszar cech . Przechodzimy do ostatniej warstwy konwolucji i mieć wyciągnięty tylko ten obszar co nas interesuje. 
-
-- podejscie 
-    - obrazek przepuszczany przez siec konwolucyjna
-    - wyciagamy ostatnia warstwe sieci konwolucyjnej
-    - wyliczamy z niej ROI 
-    - tutaj przeprowadzamy analizę czy mamy obiekt 
-2. Jak znaleźć szybciej  obszary zainteresowań  
-- Wytrenować sieć która będzie proponować rejony zainteresowań 
-- Hasło Region Proposal network 
-- Proces teraz wygląda tak
-  -> puszczamy obrazek przez siec i dostajemy ostatnią warstwę konwolucji 
-  -> puszczamy to do drugiej podsieci która generuje ROI 
-  -> Wynik jest zwracany do pierwszej sieci która przeprowadza na bazie tego rozpoznania, następnie zwracane są bounding boxy i rozpoznany obiekt 
-
-
-## C zrobić gdy dostaniemy za dużo bounding boxów
-- Non Maxiumum Suppresion 
+## Co zrobić gdy dostaniemy za dużo bounding boxów
+- Non Maxiumum Suppresion
     - patrzymy czy wszystkie bounding boxy mają tą samą klasę
     - Wybieramy ten który ma największą pewność po softmaxie
-    - resztę usuwamy 
+    - resztę usuwamy
 
 
 ## YOLO (Look bo nie live)
 
-- dzielenie obrazku na sekcje 
-- dla każdej ramki trzeba proponować co w niej się znajduje. 
-- zaznaczamy ramki z odpowiednim znacznikiem pewności (confidence score)
-- zozstawiamy to co ma duże CS i tyle
+- dzielenie obrazku na sekcje
+- dla każdej ramki trzeba proponować co w niej się znajduje.
+- zaznaczamy ramki z odpowiednim znacznikiem pewności (**Confidence Score**), tym większy score, to grubsza ramka
+- zozstawiamy tylko tą co ma największy CS.
 
 
-## v2
-- poprawiono sieć o kilka rzeczy
+## YOLO v2
+Wprowadzono:
+- Batch normalization
+- High Resolution Classiﬁer
+### Anchor boxy
+To zestaw predefiniowanych ramek (bounding boxes) o różnych proporcjach i skalach, które są używane jako punkty odniesienia dla rzeczywistych ramek otaczających obiekty w obrazie. Ułatwiają one modelowi wykrywanie obiektów o różnych rozmiarach i proporcjach, szczególnie gdy na jednym obrazie występuje wiele obiektów blisko siebie lub się nakładających.
+
+Został wytrenowany na dwóch różnych zbiorach danych.
+
+## YOLO v3
+- zastosowanie połączeń rezydualnych
+- dodanie dodatkowych wyjścć wcześniej by umieć rozróżniać wielkość elementów, wcześniejsze iteracje sobie z małymi obiektami nie radziły
+
+![](./images/YoloV3.png)
 
 
-## v3
-- zastosowanie połączen rezydualnych
-- dodanie dodatkowego wyjścia wcześniej by umieć rozróżniać wielkość elementów, wcześniejsze iteracje sobie z małymi obiektami nie radziły  
 
 
+ <!-- openmmlab -->
 
-
-
- openmmlab 
-
- jakie miał problem fast r-cnn 
+ <!-- jakie miał problem fast r-cnn -->

@@ -1,3 +1,4 @@
+# Regularyzacja i Fine tuning
 ## Metody augumentacji danych
 - Flip - tworzenie odbicia lustrzanego obrazka
 - Rotate - obracanie obrazka

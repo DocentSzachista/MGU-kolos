@@ -1,3 +1,4 @@
+# Podstawowe funkcje w uczeniu głębokim
 ## CrossValidation
 Bierzemy sobie wycinek danych jeden zapamiętujemy na pozostałych uczymy potem testujemy na tym zapamiętanym. następnie wybieramy kolejny inny wycinek i tak dalej, potem średnia i mamy wynik.
 
