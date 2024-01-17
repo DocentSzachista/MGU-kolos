@@ -49,4 +49,20 @@ Nie robi się konwolucji parzystej, bo kwadraty wtedy nie mają środka. Samą o
 ## Auxiliary classifier
 ## Sieć inception3, szukać odpowiedzi na to jak nie utracić gradientu za pomocą pogłębiania sieci (zastosowanie kroku "skip")
 ## Po co jest depthwise convolutin
-## (Ogarnąć) Plusy resnet'a i deepneyea
+ Depthwise convolution jest to przeprowadzanie konwolucji na każdym pojedynczym kanale koloru w obrazie a następnie połączenie wyników konwolucją 1x1. 
+ Zalety:
+ - zmniejszona liczba operacji. Mniej operacji mnożenia, gdyż iterujemy po każdym kanale osobno
+ - zmniejszona liczba parametrów, co zmniejsza ryzyko przeuczenia się sieci.
+## (Ogarnąć) Plusy resnet'a i depthneta
+**ResNet**
+- Rozwiązanie Problemu Zanikającego Gradientu: ResNet wprowadza połączenia rezydualne, które umożliwiają propagację gradientu wstecz przez wiele warstw, pomagając w treningu bardzo głębokich sieci.
+- Możliwość Budowy Głębszych Sieci: Dzięki połączeniom rezydualnym, ResNet umożliwia skuteczne trenowanie sieci o znacznie większej głębokości niż to było możliwe wcześniej (np. ResNet-152).
+- Wysoka Skuteczność w Zadaniach Klasyfikacyjnych: Sieci ResNet osiągają bardzo dobre wyniki w zadaniach klasyfikacji i rozpoznawania obrazów.
+- Lepsza Generalizacja: Połączenia rezydualne pomagają w generalizacji modelu, co jest korzystne przy przenoszeniu nauczonych cech na nowe, niewidziane dane.
+
+**DenseNet**
+
+- Efektywne Wykorzystanie Parametrów: W DenseNet każda warstwa otrzymuje jako wejście dane z wszystkich poprzednich warstw, co prowadzi do bardziej efektywnego wykorzystania parametrów i zmniejsza ryzyko przeuczenia.
+- Ulepszona Propagacja Cech i Gradientów: Dzięki gęstym połączeniom, cechy z wcześniejszych warstw są bezpośrednio przekazywane do późniejszych warstw, co poprawia przepływ informacji i gradientów w sieci.
+- Zmniejszenie Zapotrzebowania na Liczbę Kanałów: Gęste połączenia pozwalają na redukcję liczby kanałów w każdej warstwie konwolucyjnej, ponieważ sieć może korzystać z cech zgromadzonych z poprzednich warstw.
+- Dobry w Wykrywaniu Detali: Dzięki zachowaniu wszystkich cech z poprzednich warstw, DenseNet jest szczególnie dobry w wykrywaniu drobnych detali w obrazach.
