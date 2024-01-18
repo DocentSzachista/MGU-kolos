@@ -48,12 +48,12 @@ Nie robi się konwolucji parzystej, bo kwadraty wtedy nie mają środka. Samą o
 
 ## Auxiliary classifier
 ## Sieć inception3, szukać odpowiedzi na to jak nie utracić gradientu za pomocą pogłębiania sieci (zastosowanie kroku "skip")
-## Po co jest depthwise convolutin
- Depthwise convolution jest to przeprowadzanie konwolucji na każdym pojedynczym kanale koloru w obrazie a następnie połączenie wyników konwolucją 1x1. 
+## Po co jest depthwise convolution
+ Depthwise convolution jest to przeprowadzanie konwolucji na każdym pojedynczym kanale koloru w obrazie a następnie połączenie wyników konwolucją 1x1.
  Zalety:
  - zmniejszona liczba operacji. Mniej operacji mnożenia, gdyż iterujemy po każdym kanale osobno
  - zmniejszona liczba parametrów, co zmniejsza ryzyko przeuczenia się sieci.
-## (Ogarnąć) Plusy resnet'a i depthneta
+## Plusy resnet'a i depthneta
 **ResNet**
 - Rozwiązanie Problemu Zanikającego Gradientu: ResNet wprowadza połączenia rezydualne, które umożliwiają propagację gradientu wstecz przez wiele warstw, pomagając w treningu bardzo głębokich sieci.
 - Możliwość Budowy Głębszych Sieci: Dzięki połączeniom rezydualnym, ResNet umożliwia skuteczne trenowanie sieci o znacznie większej głębokości niż to było możliwe wcześniej (np. ResNet-152).
@@ -66,3 +66,70 @@ Nie robi się konwolucji parzystej, bo kwadraty wtedy nie mają środka. Samą o
 - Ulepszona Propagacja Cech i Gradientów: Dzięki gęstym połączeniom, cechy z wcześniejszych warstw są bezpośrednio przekazywane do późniejszych warstw, co poprawia przepływ informacji i gradientów w sieci.
 - Zmniejszenie Zapotrzebowania na Liczbę Kanałów: Gęste połączenia pozwalają na redukcję liczby kanałów w każdej warstwie konwolucyjnej, ponieważ sieć może korzystać z cech zgromadzonych z poprzednich warstw.
 - Dobry w Wykrywaniu Detali: Dzięki zachowaniu wszystkich cech z poprzednich warstw, DenseNet jest szczególnie dobry w wykrywaniu drobnych detali w obrazach.
+
+
+## Opisz co to jest operacja Pooling. Opisz co to jest konwolucja ze stride=2. Do czego służą takie operacje?
+
+### Pooling
+Operacja redukcji wymiaru poprzez przeprowadzenie agregacji na sąsiadujących elementach, dzięki czemu zmniejsza się liczba parametrów w sieci neuronowej.
+Wykorzystuje się dwa typy operacji:
+- maxpooling - wybiera maksymalną wartość z każdego okna danych
+- averagepooling - oblicza średnią wartość każdego okna.
+
+### Konwolucja ze stride = x
+Jest to dodanie przesunięcia się kernela. Domyślnie przesuwamy się o co jedną kolumnę jak ustawimy Stride = 2 to będziemy się przemieszczać co dwie kolumny.
+
+### Zastosowanie
+Zarówno operację pooling jak i stride używa się do redukcji liczby parametrów i rozmiaru danych stosowanych do nauki sieci neuronowej.
+
+## Co to jest i do czego służy regularyzacja w kontekście sieci neuronowych. Wymień trzy metody regularyzacji.
+
+Regularyzacja są to metody mające na celu pomóc sieci nauczyć się wzorców występujących w danych uczących a nie samych danych.
+
+Metody regularyzacji
+- L1
+- L2
+- Dropout
+
+## Opisz krótko "Multi Head Attenction" z Transformer-ów. (1 Point)
+
+
+##  Co to jest strata (loss) i po co ją obserwować w procesie uczenia? (1 Point)
+
+### Strata
+Strata to kara za złe przewidywanie. Oznacza to, że strata jest liczbą wskazującą, jak zła była prognoza modelu na pojedynczym przykładzie. Jeśli przewidywanie modelu jest doskonałe, strata wynosi zero; w przeciwnym razie strata jest większa.
+
+### Przyczyny obserwacji
+- Dzięki zmianom straty możemy zauważyć czy nasza sieć neuronowa się uczy.
+- Możemy zobaczyć czy nasz model się nie przeucza poprzez sprawdzenie czy na danych treningowych funkcja straty maleje a na walidacyjnych rośnie.
+
+## Opisz krótko za co odpowiedzialna jest sieć neuronowa w deep Q-learning.
+
+
+## Po co stosuje się "Depthwise Separable Convolution". Za co odpowiedzialna jest konwolucja "Depthwise", a za co "Pointwise".
+
+##  Wymień kolejne kroki, które modyfikują "pamięć długotrwałą"(cell state) w LSTM.
+
+## Jak Progressive GAN umożliwia generację obrazów w dużej rozdzielczości? (1 Point)
+
+## Opisz krótko "residual/skip connection" z modelu ResNet.
+
+##  Jakiej techniki się używa, żeby usunąć liczne (z reguły więcej niż dwie) warstwy "Linear"/"Dense"/"Fully connected" po "Flatten" w CNN? Opisz jak działa ta technika. Dlaczego stosowanie tych wielu warstw sprawiało problemy?
+
+## Jak rozwiążesz poniższy problem.
+Opisz w kilku zdaniach wymyślone rozwiązanie będąc przy tym możliwie precyzyjnym (np. podając nazwy konkretnych metod, modeli). Proszę odpowiedzieć na podstawie obecnie posiadanej wiedzy, tego jak się Państwu wydaje, że należałoby to zrobić.
+
+1. Wykrycie czy na filmie (około 30s) występuje konkretna osoba, rozpoznając ją po ubraniu.
+ Na filmie może pojawiać się wiele osób jednocześnie - np. nagranie z wejścia do budynku PWr, C-1.Jako dane wejściowe mają Państwo 5 zdjęć poszukiwanej osoby z różnych kadrów/perspektyw (np. zdjęcie z przodu, z tyłu, itd.).
+2. Model do klasyfikacji ras królików na podstawie zdjęcia.
+Niestety, dostępna jest baza danych z małą liczbą przykładowych zdjęć. Jak poradzisz sobie z takim problemem?
+3. Aplikacja, która musi być uruchomiana na telefonie komórkowym służąca do zliczania ludzi na zdjęciach.
+4. Klasyczny model do klasyfikacji dokumentów tekstowych.
+Opisz jedno z podejść
+(1) oparte na sieciach rekurencyjnych(uczonych od zera)
+lub (2) oparte na Transformer-ach (transfer learning).
+
+
+## Opisz dwa dowolne modele, służące do klasyfikacji obrazów które zostały zaproponowane 2017r lub później.
+Opisz tylko najważniejsze kwestie, które zostały wprowadzone.Immersive Reade
+
