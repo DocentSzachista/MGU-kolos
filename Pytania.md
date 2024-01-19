@@ -105,8 +105,14 @@ Strata to kara za złe przewidywanie. Oznacza to, że strata jest liczbą wskazu
 
 ## Opisz krótko za co odpowiedzialna jest sieć neuronowa w deep Q-learning.
 
+W tradycyjnym Q-learning, tabela Q (tablica wartości Q dla każdego stanu i akcji) jest używana do przechowywania i aktualizacji wartości Q, które pomagają agentowi decydować, jaką akcję podjąć w danym stanie.
+
+Sieć neuronowa zatem jest używana zamiast tabeli Q, która uczy się na bazie otrzymywanych wydarzeń stanów Q i na ich podstawie potem agent podejmuje decyzje od tej wartości Q, jaką przewidziała sieć neuronowa.
+
 
 ## Po co stosuje się "Depthwise Separable Convolution". Za co odpowiedzialna jest konwolucja "Depthwise", a za co "Pointwise".
+Depthwise
+
 
 ##  Wymień kolejne kroki, które modyfikują "pamięć długotrwałą"(cell state) w LSTM.
 
