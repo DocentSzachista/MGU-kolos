@@ -1,5 +1,3 @@
-# Modele generatywne
-
 ## Model działania GAN'u
 
 ### Dyskryminator

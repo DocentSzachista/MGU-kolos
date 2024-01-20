@@ -1,4 +1,3 @@
-# Sieci CNN
 ## Problem z przerabiania obrazu na wektor
 Mając długi wektor analizujemy dany piksel biorąc jego sąsiedztwo z lewej i prawej strony, nie bacząc na to co jest powyżej i poniżej. Problem można rozwiązać stosując tensory (np zestaw wektorów odzwierciedlających po jednym z kanałów RGB obrazu)
 

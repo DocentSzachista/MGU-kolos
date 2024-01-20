@@ -1,4 +1,3 @@
-# Podstawowe funkcje w uczeniu głębokim
 ## CrossValidation
 Bierzemy sobie wycinek danych jeden zapamiętujemy na pozostałych uczymy potem testujemy na tym zapamiętanym. następnie wybieramy kolejny inny wycinek i tak dalej, potem średnia i mamy wynik.
 
@@ -9,7 +8,8 @@ Bierzemy sobie wycinek danych jeden zapamiętujemy na pozostałych uczymy potem 
 ## Softmax
 - Funkcja ta służy do przejścia do przestrzeni prawdopodobieństwa aby na podstawie odpowiedzi sieci (logitsów) móc określić z jaką pewnością wybrał daną klasę. Tym **większa liczba** tym **większe prawdopodobieństwo** SoftMax mu przypisze
 ## MSE- błąd średniokwadratowy
-$ MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $
+![](./images/MSE.png)
+<!-- $ MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $ -->
 
 jest powszechnie stosowaną funkcją straty (loss function) w uczeniu maszynowym i głębokim, szczególnie w problemach regresji. Oto kilka kluczowych zastosowań MSE:
 - Ocena Wydajności Modelu: MSE może być także wykorzystywany do oceny wydajności modelu po jego wytrenowaniu, dając jasny obraz tego, jak dokładne są jego przewidywania.
@@ -40,10 +40,11 @@ Backpropagation składa się z dwóch głównych etapów: propagacji do przodu (
 
 
 ### Spadek gradientowy:
-- $$ w_{n+1} = w_n - \alpha \nabla J(w)$$
+![](./images/gradient.png)
+<!-- - $$ w_{n+1} = w_n - \alpha \nabla J(w)$$
     - $J(w)$ - gradient funkcji kosztu
     - $\alpha$ - learning rate
-    - $w_n$  aktualna wartość wagi
+    - $w_n$  aktualna wartość wagi -->
 
 - Gradient descent - ma za zadanie poprawiać wagi, czyli służy do nauki wag w warstwach sieci. Poprzez sterowanie parametrem alfa jesteśmy w stanie sprawić aby sieć się nie uczyła na pamięć.
 

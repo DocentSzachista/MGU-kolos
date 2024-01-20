@@ -19,10 +19,12 @@ gdzie x, y to współrzędne środka obrazu, a width, height to szerokość i wy
 
 
 ## Intersection over Union
-$$ IoU = {AreaOfOverlap \over AreaOfUnion}$$
+![](./images/IOU.png)
+<!-- $$ IoU = {AreaOfOverlap \over AreaOfUnion}$$ -->
 Sprawdzenie jaki jest stosunek ramki wyznaczonej przez model do ramki prawdziwej (wyznaczonej w danych testowych)
 ## Mean Average Precision (mAP)
-$$mAP = \frac{1}{N} \sum_{i=1}^{N} {TP_i \over FP_i - TP_i }$$
+
+![](./images/mAP.png)
 
 Jest to wzór którym obliczamy jak dobrze nasz model wykrywa obiekty, za pomocą macierzy kowariancji.
 

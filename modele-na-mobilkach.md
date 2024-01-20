@@ -1,4 +1,3 @@
-# Sieci Mobilne
 ## Problemy
 - mniejsza moc obliczeniowa
 - chcemy jak najszybciej by to działało

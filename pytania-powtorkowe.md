@@ -1,28 +1,29 @@
-## Kiedy chcemy skupić się na wyciąganiu wzorców lepiej ejst zastosować AveragePooling czy MaxPooling?
+## Pytania z wykładu
+### Kiedy chcemy skupić się na wyciąganiu wzorców lepiej ejst zastosować AveragePooling czy MaxPooling?
 Lepiej jest stosować MaxPooling, gdyż wyciągamy informację o wyróżniającym wzorcu który występuje w danym fragmencie obrazu.
 
-## Po co kilka konwolucji pod rząd
+### Po co kilka konwolucji pod rząd
 Dwie konwolucje 3x3 działają podobnie jak jedna 5x5, ale przy dwóch konwolucjach mamy do zapamiętania mniej informacji, a oprócz tego mamy możliwość wciśnięcia dodatkowej funkcji aktywacji
-## Po co stosować konwolucję 1x1
+### Po co stosować konwolucję 1x1
 Pozwala tanim kosztem manipulować liczbą kanałów - np ze 100 zrobić 1. Wyciąga kluczowe cechy z wielu warstw.
 
-## Jak liczyć forward pass?
+### Jak liczyć forward pass?
 Przeprowadzać normalne obliczenia na macierzach, w zależności od operacji. Na przykład na konwolucji wykonywać mnożenia.
 
-## Jak liczyć backpropagation?
+### Jak liczyć backpropagation?
 Poprzez pochodne cząstkowe.
 
-## Czemu nie ma konwolucji parzystych 2x2, 4x4, 6x6
+### Czemu nie ma konwolucji parzystych 2x2, 4x4, 6x6
 Nie robi się konwolucji parzystej, bo kwadraty wtedy nie mają środka. Samą operacje teoretycznie dałoby się wykonać, ale byłby problem z określeniem gdzie wpisać wynik konwolucji - kombinowanie.
 
 
 
-## Jakie jest zastosowanie konwolucji 1x1
+### Jakie jest zastosowanie konwolucji 1x1
 - Zmiana liczby kanałów: Konwolucja 1x1 może zmieniać liczbę kanałów w mapie cech. Na przykład, jeśli wejściowa mapa cech ma 256 kanałów, a chcemy zredukować je do 64, używamy konwolucji 1x1 z 64 filtrami. To pozwala na zmniejszenie złożoności modelu i jego wymagań obliczeniowych.
 - Zwiększenie nieliniowości: Pomimo swojej prostoty, konwolucje 1x1 wprowadzają dodatkową nieliniowość do modelu, gdy są stosowane z funkcjami aktywacji, takimi jak ReLU. To pomaga w wyłapywaniu bardziej skomplikowanych wzorców w danych.
 - Efektywna integracja informacji z różnych kanałów: Konwolucja 1x1 efektywnie łączy informacje z różnych kanałów mapy cech. Dzięki temu model może lepiej uczyć się zależności między kanałami.
 
-## Po co stosować podwójną konwolucję
+### Po co stosować podwójną konwolucję
 - Lepsze Wyłapywanie Cech: Stosowanie dwóch konwolucji po sobie pozwala modelowi na wyłapywanie bardziej złożonych cech w danych. Pierwsza warstwa może wyłapywać proste wzorce, takie jak krawędzie czy kolory, a druga warstwa może integrować te proste wzorce w bardziej skomplikowane struktury.
 
 - Zwiększenie Głębokości Sieci bez Nadmiernego Zwiększania Złożoności: Przez stosowanie wielu lżejszych warstw konwolucyjnych zamiast jednej ciężkiej, można zwiększyć głębokość sieci bez znacznego wzrostu liczby parametrów i obciążenia obliczeniowego.
@@ -34,27 +35,27 @@ Nie robi się konwolucji parzystej, bo kwadraty wtedy nie mają środka. Samą o
 - Ograniczenie Przesadnego Dopasowania: Stosując dwie lub więcej warstw konwolucyjnych zamiast jednej dużej, można potencjalnie zmniejszyć ryzyko przeuczenia się (overfitting) sieci do danych treningowych, co jest szczególnie ważne w zadaniach z ograniczoną ilością danych.
 
 
-## Zastosowanie funkcji flatten i jaki jest Jego zamiennik
-### Flatten:
+### Zastosowanie funkcji flatten i jaki jest Jego zamiennik
+#### Flatten:
 - Przekształcanie Map Cech na Wektor: flatten służy do przekształcenia wielowymiarowych map cech (wynikających z warstw konwolucyjnych i poolingowych) na jednowymiarowy wektor. Jest to kluczowe, ponieważ warstwy w pełni połączone (fully connected layers), które zwykle następują po warstwach konwolucyjnych, wymagają danych wejściowych w formie jednowymiarowej.
 
 - Przygotowanie do Klasyfikacji: Po przetworzeniu obrazu przez warstwy konwolucyjne i poolingowe, flatten umożliwia przekształcenie wynikającej z tego mapy cech na format, który może być użyty do klasyfikacji (np. rozpoznawanie obiektów na obrazie).
 
-### GlobalAveragePooling
+#### GlobalAveragePooling
 - stosowane jako alternatywa do warstwy Flatten
 - Redukcja Parametrów: GAP znacznie redukuje liczbę parametrów, przekształcając każdą mapę cech w pojedynczą liczbę przez obliczenie średniej wartości wszystkich jej elementów. Dzięki temu zmniejsza ryzyko przeuczenia (overfitting).
 
 - Utrzymanie Przestrzennych Informacji: W przeciwieństwie do flatten, GAP zachowuje przestrzenną informację o cechach, co jest ważne w niektórych aplikacjach, takich jak lokalizacja obiektów na obrazie.
 - Elastyczność Rozmiaru Wejściowego: GAP umożliwia sieci radzenie sobie z obrazami o różnych rozmiarach, ponieważ niezależnie od rozmiaru wejściowej mapy cech, wyjście GAP jest stałe (jedna wartość na kanał).
 
-## Auxiliary classifier
+### Auxiliary classifier
 - pomocniczy klasyfikator który ma na celu poprawić proces uczenia i generalizacji modelu.
 - są trenowane na tych samych danych co główna siec ale skupiają się na cechach z warstw pośrednich.
 - Funkcja straty jest wyliczana jako suma głównego klasyfikatora i klasyfikatorów pośrednich.
 - Zastosowane w sieciach Inception. (Google)
 
 
-## Plusy resnet'a i depthneta
+### Plusy resnet'a i depthneta
 **ResNet**
 - Rozwiązanie Problemu Zanikającego Gradientu: ResNet wprowadza połączenia rezydualne, które umożliwiają propagację gradientu wstecz przez wiele warstw, pomagając w treningu bardzo głębokich sieci.
 - Możliwość Budowy Głębszych Sieci: Dzięki połączeniom rezydualnym, ResNet umożliwia skuteczne trenowanie sieci o znacznie większej głębokości niż to było możliwe wcześniej (np. ResNet-152).
@@ -68,6 +69,7 @@ Nie robi się konwolucji parzystej, bo kwadraty wtedy nie mają środka. Samą o
 - Zmniejszenie Zapotrzebowania na Liczbę Kanałów: Gęste połączenia pozwalają na redukcję liczby kanałów w każdej warstwie konwolucyjnej, ponieważ sieć może korzystać z cech zgromadzonych z poprzednich warstw.
 - Dobry w Wykrywaniu Detali: Dzięki zachowaniu wszystkich cech z poprzednich warstw, DenseNet jest szczególnie dobry w wykrywaniu drobnych detali w obrazach.
 
+## Pytania wymyślone
 
 ## Opisz co to jest operacja Pooling. Opisz co to jest konwolucja ze stride=2. Do czego służą takie operacje?
 
